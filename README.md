@@ -55,6 +55,7 @@ TALVÉZ TERÁ:
 •	RNF03 – O sistema deve responder rapidamente às ações do usuário  
 •	RNF04 – O sistema deve garantir integridade dos dados  
 •	RNF05 – O sistema deve possuir interface amigável e intuitiva 
+
 •	RNF06 – O sistema deve restringir acessos conforme o perfil do usuário 
  
 ️ ARQUITETURA DO SISTEMA 
