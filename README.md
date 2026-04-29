@@ -118,7 +118,7 @@ O relacionamento que iremos usar como modelo, será o seguinte:
 •	Usuário → gerencia sistema;
 
 Diagrama de Domínio 
-•	Cliente realiza reservas  
-•	Lancha é utilizada nas reservas  
-•	Usuário controla o sistema  
+•	Cliente realiza reservas; 
+•	Lancha é utilizada nas reservas;  
+•	Usuário controla o sistema; 
 
