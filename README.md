@@ -30,21 +30,23 @@ REQUISITOS DO SISTEMA
   
  Requisitos Funcionais: 
 O sistema AquaLanchas deve permitir: 
+
 •	RF01 – Realizar login no sistema  
 •	RF02 – Cadastrar clientes  
 •	RF03 – Editar e excluir clientes  
 •	RF04 – Cadastrar lanchas  
 •	RF05 – Editar e excluir lanchas  
-•	RF06 – Registrar reservas de lanchas  
+•	RF06 – Registrar reservas de lanchas 
 •	RF07 – Cancelar reservas  
 •	RF08 – Consultar disponibilidade de lanchas por data  
-•	RF09 – Exibir calendário de reservas  
+•	RF09 – Exibir calendário de reservas 
 •	RF10 – Gerar relatórios por período  
 •	RF11 – Gerar relatórios por cliente  
 •	RF12 – Gerenciar usuários do sistema (ADMIN)  
 •	RF13 – Controlar acesso por tipo de usuário (ADMIN e FUNCIONÁRIO)  
  
  Requisitos Não Funcionais: 
+ 
 •	RNF01 – O sistema deve ser acessado via navegador (web)  
 •	RNF02 – O sistema deve possuir autenticação de usuários (JWT)  -
 
