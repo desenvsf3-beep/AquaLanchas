@@ -51,6 +51,7 @@ O sistema AquaLanchas deve permitir:
 •	RNF02 – O sistema deve possuir autenticação de usuários (JWT)  -
 
 TALVÉZ TERÁ:
+
 •	RNF03 – O sistema deve responder rapidamente às ações do usuário  
 •	RNF04 – O sistema deve garantir integridade dos dados  
 •	RNF05 – O sistema deve possuir interface amigável e intuitiva 
