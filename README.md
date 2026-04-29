@@ -85,35 +85,58 @@ Padrões do projeto:
 
   Diagrama de Classe (Descrição) 
   
-Classe Cliente; 
+Classe Cliente;
+
 •	id  
-•	nome  
-•	cpf  
+
+•	nome 
+
+•	cpf 
+
 •	email  
-•	telefone  
+
+•	telefone 
+
 •	endereço 
 
 Classe Lancha;
+
 •	id  
+
 •	nome  
+
 •	capacidade  
+
 •	valor  
+
 •	descrição  
+
 •	status 
 
 Classe Reserva; 
+
 •	id  
+
 •	data  
+
 •	local 
+
 •	valor  
+
 •	horario 
+
 •	cliente_id 
+
 • lancha_id  
 
 Classe Usuário; 
+
 •	id  
+
 •	matricula 
+
 •	email  
+
 •	senha  
  
 O relacionamento que iremos usar como modelo, será o seguinte: 
