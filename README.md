@@ -6,19 +6,21 @@ Com foco em facilitar a comunicação entre o cliente e o responsável pela admi
 
 Conta com automatização do processo de reservas;
 
-organização ao cadastro do cliente e embarcação;
+Organização ao cadastro do cliente e embarcação;
 
 Controle e disponibilidade de lanchas;
+
 Impedir conflitos de agendamento;
 
 Gera relatórios para controle de gestão;
 
 Melhorar eficácia operacional do negócio;
 
-•	Administrador (ADMIN – parte administrativa): 
+•	Administrador (ADMIN – parte administrativa):
+
 o	Controle total do sistema  o Gerenciamento de usuários  o Acesso a relatórios 
 
-•	Funcionário: ( Parte em que será distribuídos os acessos necessários): 
+•	Funcionário: ( Parte em que será distribuídos os acessos necessários); 
 
 o	Cadastro de clientes;  
 o	Realização de reservas;  
