@@ -1,156 +1,93 @@
-# AquaLanchas
-Projeto Orientação Java(web)
-AquaLanchas um sistema web com a finalidade de gerenciar e organizar reservas de lanchas.
+# Aqua Lancha - Sistema de Reservas de Lanchas
 
-Com foco em facilitar a comunicação entre o cliente e o responsável pela administração do processo de reservas;
+## Como Rodar
 
-Conta com automatização do processo de reservas;
+### 1. Criar e ativar o ambiente virtual
 
-Organização ao cadastro do cliente e embarcação;
+**Linux / macOS:**
+```bash
+python -m venv venv
+source venv/bin/activate
+```
 
-Controle e disponibilidade de lanchas;
+**Windows:**
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
-Impedir conflitos de agendamento;
+### 2. Instalar dependencias
 
-Gera relatórios para controle de gestão;
+```bash
+pip install -r requirements.txt
+```
 
-Melhorar eficácia operacional do negócio;
+### 3. Iniciar o banco e dados de exemplo
 
-•	Administrador (ADMIN – parte administrativa):
+```bash
+python manage.py migrate
+python seed.py
+```
 
-o	Controle total do sistema  o Gerenciamento de usuários  o Acesso a relatórios 
+### 4. Rodar o servidor
 
-•	Funcionário: ( Parte em que será distribuídos os acessos necessários); 
+```bash
+python manage.py runserver
+```
 
-o	Cadastro de clientes;  
-o	Realização de reservas;  
-o	Consulta de disponibilidade; 
+Acesse: http://127.0.0.1:8000
 
-REQUISITOS DO SISTEMA 
-  
- Requisitos Funcionais: 
-O sistema AquaLanchas deve permitir: 
+---
 
-•	RF01 – Realizar login no sistema  
-•	RF02 – Cadastrar clientes  
-•	RF03 – Editar e excluir clientes  
-•	RF04 – Cadastrar lanchas  
-•	RF05 – Editar e excluir lanchas  
-•	RF06 – Registrar reservas de lanchas 
-•	RF07 – Cancelar reservas  
-•	RF08 – Consultar disponibilidade de lanchas por data  
-•	RF09 – Exibir calendário de reservas 
-•	RF10 – Gerar relatórios por período  
-•	RF11 – Gerar relatórios por cliente  
-•	RF12 – Gerenciar usuários do sistema (ADMIN)  
-•	RF13 – Controlar acesso por tipo de usuário (ADMIN e FUNCIONÁRIO)  
- 
- Requisitos Não Funcionais: 
- 
-•	RNF01 – O sistema deve ser acessado via navegador (web)  
-•	RNF02 – O sistema deve possuir autenticação de usuários (JWT)  -
+## Logins
 
-TALVÉZ TERÁ:
+| Perfil      | Usuario    | Senha     |
+|-------------|------------|-----------|
+| Admin       | Admaqua    | 123@aqua  |
+| Funcionario | func1      | func123   |
+| Cliente     | cliente1   | cli123    |
 
-•	RNF03 – O sistema deve responder rapidamente às ações do usuário  
-•	RNF04 – O sistema deve garantir integridade dos dados  
-•	RNF05 – O sistema deve possuir interface amigável e intuitiva 
+---
 
-•	RNF06 – O sistema deve restringir acessos conforme o perfil do usuário 
- 
-️ ARQUITETURA DO SISTEMA 
-O sistema AquaLanchas segue uma arquitetura baseada em separação de camadas:
+## Estrutura
 
-🔹 Front-end 
-•	Desenvolvido em HTML, CSS e JavaScript;  
-•	Responsável pela interface do usuário; 
+```
+aqua_lancha/       -> Configuracoes do projeto (settings.py, urls.py)
+core/
+  models.py        -> Usuario, Lancha, Reserva, EventoCalendario
+  views.py         -> Views por perfil (admin, func, cliente)
+  forms.py         -> Formularios
+  api.py           -> API REST JSON (/api/...)
+  admin.py         -> Painel admin Django
+  templates/core/
+    admin/         -> Dashboard, lanchas, clientes, funcionarios, reservas
+    func/          -> Dashboard, lanchas, reservas, cadastro cliente
+    cliente/       -> Dashboard, lanchas, reservar, calendario
+venv/              -> Ambiente virtual Python (nao commitar no git)
+db.sqlite3         -> Banco de dados SQLite
+requirements.txt   -> Dependencias do projeto
+seed.py            -> Script de dados iniciais
+```
 
-🔹 Back-end  
-•	Framework: Django + Django REST Framework;  
-•	Responsável pelas regras de negócio e APIs;  
+## API REST
 
-🔹 Banco de Dados
-•	Armazenamento de clientes, lanchas, reservas e usuários  (Mysql);
+| Endpoint                  | Acesso      | Descricao                |
+|---------------------------|-------------|--------------------------|
+| GET /api/lanchas/         | Publico     | Lista lanchas            |
+| GET /api/lanchas/<id>/    | Autenticado | Detalhe da lancha        |
+| GET /api/reservas/        | Autenticado | Lista reservas           |
+| GET /api/disponibilidade/ | Autenticado | Verifica disponibilidade |
+| GET /api/clientes/        | Admin/Func  | Lista clientes           |
 
-🔹 Comunicação 
-•	API REST com autenticação via JWT; 
- 
- 
- 
-Padrões do projeto: 
+Exemplo:
+GET /api/disponibilidade/?data_inicio=2025-12-01T10:00&data_fim=2025-12-01T14:00
 
-•	MVC (Model-View-Controller)  
-•	CRUD (Create, Read, Update, Delete)  
-•	Separação de responsabilidades 
+## .gitignore recomendado
 
-  Diagrama de Classe (Descrição) 
-  
-Classe Cliente;
-
-•	id  
-
-•	nome 
-
-•	cpf 
-
-•	email  
-
-•	telefone 
-
-•	endereço 
-
-Classe Lancha;
-
-•	id  
-
-•	nome  
-
-•	capacidade  
-
-•	valor  
-
-•	descrição  
-
-•	status 
-
-Classe Reserva; 
-
-•	id  
-
-•	data  
-
-•	local 
-
-•	valor  
-
-•	horario 
-
-•	cliente_id 
-
-• lancha_id  
-
-Classe Usuário; 
-
-•	id  
-
-•	matricula 
-
-•	email  
-
-•	senha  
- 
-O relacionamento que iremos usar como modelo, será o seguinte: 
-
-•	Cliente → faz → Reserva;  
-•	Lancha → possui → Reserva;  
-•	Reserva → pertence a Cliente e Lancha;  
-•	Usuário → gerencia sistema;
-
-Diagrama de Domínio:
-
-•	Cliente realiza reservas; 
-
-•	Lancha é utilizada nas reservas;
-
-•	Usuário controla opções disponíveis no sistema; 
-
+```
+venv/
+db.sqlite3
+__pycache__/
+*.pyc
+.env
+```
