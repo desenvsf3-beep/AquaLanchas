@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro - Aqua Lancha</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0369a1,#0ea5e9);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem}
+.box{background:#fff;border-radius:20px;padding:2.5rem;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.logo{text-align:center;margin-bottom:1rem;font-size:2.5rem}
+h2{font-size:1.4rem;font-weight:700;color:#0369a1;text-align:center;margin-bottom:1.5rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.full{grid-column:1/-1}
+.form-group{margin-bottom:.8rem}
+label{display:block;font-size:.85rem;font-weight:500;color:#374151;margin-bottom:.3rem}
+input{width:100%;padding:.65rem .9rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:.9rem;transition:.2s}
+input:focus{outline:none;border-color:#0ea5e9;box-shadow:0 0 0 3px rgba(14,165,233,.15)}
+.error{color:#ef4444;font-size:.78rem;margin-top:.2rem}
+.btn{width:100%;padding:.75rem;background:linear-gradient(135deg,#0369a1,#0ea5e9);color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem}
+.links{text-align:center;margin-top:1rem;font-size:.88rem;color:#6b7280}
+.links a{color:#0ea5e9;font-weight:500}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">⛵</div>
+  <h2>Criar Conta de Cliente</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nome</label>
+        <input type="text" name="first_name" value="{{ form.first_name.value|default:'' }}" required>
+        {% for e in form.first_name.errors %}<div class="error">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="form-group">
+        <label>Sobrenome</label>
+        <input type="text" name="last_name" value="{{ form.last_name.value|default:'' }}" required>
+      </div>
+      <div class="form-group full">
+        <label>Usuário</label>
+        <input type="text" name="username" value="{{ form.username.value|default:'' }}" required>
+        {% for e in form.username.errors %}<div class="error">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="form-group full">
+        <label>E-mail</label>
+        <input type="email" name="email" value="{{ form.email.value|default:'' }}" required>
+      </div>
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="text" name="telefone" value="{{ form.telefone.value|default:'' }}" required>
+      </div>
+      <div class="form-group">
+        <label>CPF</label>
+        <input type="text" name="cpf" value="{{ form.cpf.value|default:'' }}">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" name="password1" required>
+        {% for e in form.password1.errors %}<div class="error">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="form-group">
+        <label>Confirmar Senha</label>
+        <input type="password" name="password2" required>
+        {% for e in form.password2.errors %}<div class="error">{{ e }}</div>{% endfor %}
+      </div>
+    </div>
+    <button type="submit" class="btn">📝 Criar Minha Conta</button>
+  </form>
+  <div class="links">Já tem conta? <a href="{% url 'login' %}">Entrar</a></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+{% block title %}Meu Calendario - Aqua Lancha{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>📅 Meu Calendario</h1>
+</div>
+<div style="display:grid;grid-template-columns:1fr 340px;gap:1.5rem;align-items:start">
+
+<div class="card">
+  <div id="calendario"></div>
+</div>
+
+<div>
+  <div class="card">
+    <div class="card-title">➕ Adicionar Evento</div>
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% for e in field.errors %}<div style="color:#ef4444;font-size:.8rem">{{ e }}</div>{% endfor %}
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary" style="width:100%">Salvar Evento</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 Meus Eventos</div>
+    {% for e in eventos %}
+    <div style="padding:.6rem 0;border-bottom:1px solid #f3f4f6;display:flex;justify-content:space-between;align-items:start">
+      <div>
+        <strong style="font-size:.9rem">{{ e.titulo }}</strong><br>
+        <small style="color:#6b7280">📅 {{ e.data|date:"d/m/Y" }}</small>
+        {% if e.reserva %}<br><small style="color:#0ea5e9">⛵ {{ e.reserva.lancha.nome }}</small>{% endif %}
+        {% if e.descricao %}<br><small style="color:#6b7280">{{ e.descricao|truncatechars:50 }}</small>{% endif %}
+      </div>
+      <form method="post" action="{% url 'cliente_evento_excluir' e.pk %}">
+        {% csrf_token %}
+        <button class="btn btn-danger btn-sm" onclick="return confirm('Remover evento?')" title="Remover">✕</button>
+      </form>
+    </div>
+    {% empty %}<p style="color:#6b7280;font-size:.88rem">Nenhum evento adicionado.</p>{% endfor %}
+  </div>
+</div>
+</div>
+
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales/pt-br.global.min.js'></script>
+<style>
+#calendario{font-size:.88rem}
+.fc-toolbar-title{font-size:1rem!important}
+.fc-button{font-size:.82rem!important;padding:.3rem .6rem!important}
+.fc .fc-button-primary{background:#0ea5e9!important;border-color:#0284c7!important}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const eventos = {{ eventos_json|safe }};
+  const cal = new FullCalendar.Calendar(document.getElementById('calendario'), {
+    locale: 'pt-br',
+    initialView: 'dayGridMonth',
+    headerToolbar: { left:'prev,next today', center:'title', right:'dayGridMonth,listMonth' },
+    events: eventos,
+    eventClick: function(info) {
+      const p = info.event.extendedProps;
+      let msg = info.event.title;
+      if(p.descricao) msg += '\n\n' + p.descricao;
+      if(p.reserva) msg += '\n\nReserva: ' + p.reserva;
+      alert(msg);
+    },
+    dateClick: function(info) {
+      document.querySelector('#id_data').value = info.dateStr;
+    }
+  });
+  cal.render();
+});
+</script>
+{% endblock %}

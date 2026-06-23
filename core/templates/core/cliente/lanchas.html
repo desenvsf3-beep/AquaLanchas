@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% block title %}Lanchas Disponiveis{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>⛵ Lanchas Disponiveis</h1>
+  <a href="{% url 'cliente_reservar' %}" class="btn btn-primary">📝 Fazer Reserva</a>
+</div>
+<div class="grid-3">
+{% for l in lanchas %}
+<div class="lancha-card">
+  {% if l.imagem_url %}
+  <img src="{{ l.imagem_url }}" style="width:100%;height:160px;object-fit:cover" alt="{{ l.nome }}">
+  {% else %}
+  <div class="lancha-img">⛵</div>
+  {% endif %}
+  <div class="lancha-body">
+    <div class="lancha-nome">{{ l.nome }}</div>
+    <div class="lancha-info">👤 {{ l.capacidade }} pessoas</div>
+    <div class="lancha-info">💰 R$ {{ l.preco_hora }}/hora</div>
+    <p style="font-size:.84rem;color:#6b7280;margin:0.5rem 0">{{ l.descricao }}</p>
+    <div style="margin-top:.8rem">
+      <a href="{% url 'cliente_reservar' %}?lancha={{ l.id }}" class="btn btn-primary btn-sm">Reservar</a>
+    </div>
+  </div>
+</div>
+{% empty %}<p style="color:#6b7280">Nenhuma lancha disponivel no momento.</p>{% endfor %}
+</div>
+{% endblock %}

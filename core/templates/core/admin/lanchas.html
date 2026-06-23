@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% block title %}Lanchas - Admin{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>⛵ Gerenciar Lanchas</h1>
+  <a href="{% url 'admin_lancha_criar' %}" class="btn btn-primary">+ Nova Lancha</a>
+</div>
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>ID</th><th>Nome</th><th>Capacidade</th><th>Preco/h</th><th>Status</th><th>Reservas</th><th>Acoes</th></tr></thead>
+    <tbody>
+    {% for lancha in lanchas %}
+    <tr>
+      <td>#{{ lancha.id }}</td>
+      <td><strong>{{ lancha.nome }}</strong><br><small style="color:#6b7280">{{ lancha.descricao|truncatechars:40 }}</small></td>
+      <td>👤 {{ lancha.capacidade }} pessoas</td>
+      <td>R$ {{ lancha.preco_hora }}/h</td>
+      <td>{% if lancha.ativa %}<span class="pill pill-verde">Ativa</span>{% else %}<span class="pill pill-vermelho">Inativa</span>{% endif %}</td>
+      <td>{{ lancha.reservas.count }}</td>
+      <td style="white-space:nowrap">
+        <a href="{% url 'admin_lancha_editar' lancha.pk %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+        <form method="post" action="{% url 'admin_toggle_lancha' lancha.pk %}" style="display:inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm {% if lancha.ativa %}btn-secondary{% else %}btn-success{% endif %}">
+            {% if lancha.ativa %}🚫 Desativar{% else %}✅ Ativar{% endif %}
+          </button>
+        </form>
+        <a href="{% url 'admin_lancha_excluir' lancha.pk %}" class="btn btn-danger btn-sm">🗑️</a>
+      </td>
+    </tr>
+    {% empty %}<tr><td colspan="7" style="text-align:center;color:#6b7280;padding:2rem">Nenhuma lancha cadastrada.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endblock %}

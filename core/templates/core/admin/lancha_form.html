@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% block title %}{{ titulo }} - Admin{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>⛵ {{ titulo }}</h1>
+  <a href="{% url 'admin_lanchas' %}" class="btn btn-secondary">← Voltar</a>
+</div>
+<div class="card" style="max-width:640px">
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Nome da Lancha</label>
+        <input type="text" name="nome" value="{{ form.nome.value|default:'' }}" required>
+        {% for e in form.nome.errors %}<div class="error">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Descricao</label>
+        <textarea name="descricao" rows="3" style="width:100%;padding:.6rem .9rem;border:1.5px solid #d1d5db;border-radius:8px;font-family:inherit">{{ form.descricao.value|default:'' }}</textarea>
+      </div>
+      <div class="form-group">
+        <label>Capacidade (pessoas)</label>
+        <input type="number" name="capacidade" value="{{ form.capacidade.value|default:'' }}" required min="1">
+        {% for e in form.capacidade.errors %}<div class="error">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="form-group">
+        <label>Preco por Hora (R$)</label>
+        <input type="number" name="preco_hora" value="{{ form.preco_hora.value|default:'' }}" required step="0.01" min="0">
+        {% for e in form.preco_hora.errors %}<div class="error">{{ e }}</div>{% endfor %}
+      </div>
+      <div class="form-group" style="grid-column:1/-1">
+        <label>URL da Imagem (opcional)</label>
+        <input type="url" name="imagem_url" value="{{ form.imagem_url.value|default:'' }}" placeholder="https://...">
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+          <input type="checkbox" name="ativa" {% if form.ativa.value %}checked{% endif %} style="width:auto">
+          Lancha Ativa
+        </label>
+      </div>
+    </div>
+    <div style="display:flex;gap:.8rem;margin-top:.5rem">
+      <button type="submit" class="btn btn-primary">💾 Salvar</button>
+      <a href="{% url 'admin_lanchas' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

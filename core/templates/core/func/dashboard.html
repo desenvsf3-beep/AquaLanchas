@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% block title %}Dashboard - Funcionario{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>🏠 Painel do Funcionario</h1>
+  <span style="color:#6b7280">Bem-vindo, {{ user.first_name }}</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
+<div class="card">
+  <div class="card-title">⛵ Lanchas Ativas ({{ lanchas_ativas.count }})</div>
+  {% for l in lanchas_ativas %}
+  <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #f3f4f6">
+    <span>{{ l.nome }}</span>
+    <span style="color:#6b7280;font-size:.85rem">{{ l.capacidade }} pessoas | R$ {{ l.preco_hora }}/h</span>
+  </div>
+  {% empty %}<p style="color:#6b7280">Nenhuma lancha ativa.</p>{% endfor %}
+</div>
+<div class="card">
+  <div class="card-title">📋 Reservas de Hoje ({{ reservas_hoje.count }})</div>
+  {% for r in reservas_hoje %}
+  <div style="padding:.5rem 0;border-bottom:1px solid #f3f4f6">
+    <strong>{{ r.lancha.nome }}</strong> - {{ r.cliente.get_full_name|default:r.cliente.username }}<br>
+    <small style="color:#6b7280">{{ r.data_inicio|date:"H:i" }} ate {{ r.data_fim|date:"H:i" }} | {{ r.quantidade_pessoas }} pessoas</small>
+  </div>
+  {% empty %}<p style="color:#6b7280">Sem reservas para hoje.</p>{% endfor %}
+</div>
+</div>
+<div class="grid-3">
+  <a href="{% url 'func_reservar' %}" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
+    <div style="font-size:2rem;margin-bottom:.5rem">➕</div>
+    <div style="font-weight:600;color:#0369a1">Nova Reserva</div>
+    <div style="font-size:.82rem;color:#6b7280;margin-top:.3rem">Reserva por telefone</div>
+  </a>
+  <a href="{% url 'func_cadastrar_cliente' %}" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
+    <div style="font-size:2rem;margin-bottom:.5rem">👤</div>
+    <div style="font-weight:600;color:#0369a1">Cadastrar Cliente</div>
+  </a>
+  <a href="{% url 'func_lanchas' %}" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
+    <div style="font-size:2rem;margin-bottom:.5rem">⛵</div>
+    <div style="font-weight:600;color:#0369a1">Ver Lanchas</div>
+  </a>
+</div>
+{% endblock %}

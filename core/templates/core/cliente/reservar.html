@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% block title %}Fazer Reserva{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>📝 Fazer Reserva</h1>
+  <a href="{% url 'cliente_dashboard' %}" class="btn btn-secondary">← Voltar</a>
+</div>
+<div class="card" style="max-width:620px">
+  <form method="post" id="reservaForm">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+      <label>{{ field.label }}</label>
+      {{ field }}
+      {% for e in field.errors %}<div style="color:#ef4444;font-size:.8rem">{{ e }}</div>{% endfor %}
+    </div>
+    {% endfor %}
+    <div class="card" style="background:#e0f2fe;margin-top:1rem" id="previewValor" style="display:none">
+      <strong>💰 Valor estimado:</strong> <span id="valorEstimado">-</span>
+    </div>
+    <div style="display:flex;gap:.8rem;margin-top:1rem">
+      <button type="submit" class="btn btn-primary">✅ Confirmar Reserva</button>
+      <a href="{% url 'cliente_dashboard' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+<script>
+// Pre-selecionar lancha se vier da URL
+const params = new URLSearchParams(window.location.search);
+const lanchaId = params.get('lancha');
+if(lanchaId){ document.querySelector('#id_lancha').value = lanchaId; }
+// Calcular valor estimado
+function calcValor(){
+  const inicio = document.querySelector('#id_data_inicio').value;
+  const fim = document.querySelector('#id_data_fim').value;
+  const lanchaEl = document.querySelector('#id_lancha');
+  if(inicio && fim && lanchaEl.value){
+    const h = (new Date(fim) - new Date(inicio)) / 3600000;
+    if(h > 0){ document.getElementById('previewValor').style.display='block'; document.getElementById('valorEstimado').textContent = `R$ (aprox. ${h.toFixed(1)}h)`; }
+  }
+}
+document.querySelector('#id_data_inicio').addEventListener('change', calcValor);
+document.querySelector('#id_data_fim').addEventListener('change', calcValor);
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% block title %}Lanchas - Funcionario{% endblock %}
+{% block content %}
+<div class="page-header"><h1>⛵ Lanchas Disponiveis</h1></div>
+<div class="grid-3">
+{% for l in lanchas %}
+<div class="lancha-card">
+  {% if l.imagem_url %}
+  <img src="{{ l.imagem_url }}" style="width:100%;height:160px;object-fit:cover" alt="{{ l.nome }}">
+  {% else %}
+  <div class="lancha-img">⛵</div>
+  {% endif %}
+  <div class="lancha-body">
+    <div class="lancha-nome">{{ l.nome }}</div>
+    <div class="lancha-info">👤 {{ l.capacidade }} pessoas</div>
+    <div class="lancha-info">💰 R$ {{ l.preco_hora }}/hora</div>
+    <div class="lancha-info">{{ l.descricao|truncatechars:80 }}</div>
+    <div style="margin-top:.8rem">
+      {% if l.ativa %}<span class="pill pill-verde">✅ Ativa</span>{% else %}<span class="pill pill-vermelho">🚫 Inativa</span>{% endif %}
+    </div>
+  </div>
+</div>
+{% empty %}<p style="color:#6b7280">Nenhuma lancha cadastrada.</p>{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% block title %}Minhas Reservas{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>📋 Minhas Reservas</h1>
+  <a href="{% url 'cliente_reservar' %}" class="btn btn-primary">+ Nova Reserva</a>
+</div>
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>#</th><th>Lancha</th><th>Inicio</th><th>Fim</th><th>Pessoas</th><th>Valor</th><th>Status</th><th>Acao</th></tr></thead>
+    <tbody>
+    {% for r in reservas %}
+    <tr>
+      <td>#{{ r.id }}</td>
+      <td><strong>{{ r.lancha.nome }}</strong></td>
+      <td>{{ r.data_inicio|date:"d/m/Y H:i" }}</td>
+      <td>{{ r.data_fim|date:"d/m/Y H:i" }}</td>
+      <td>{{ r.quantidade_pessoas }}</td>
+      <td>R$ {{ r.valor_total }}</td>
+      <td>{% if r.status == 'confirmada' %}<span class="pill pill-verde">Confirmada</span>
+          {% elif r.status == 'cancelada' %}<span class="pill pill-vermelho">Cancelada</span>
+          {% else %}<span class="pill pill-cinza">{{ r.get_status_display }}</span>{% endif %}</td>
+      <td>
+        {% if r.status == 'confirmada' %}
+        <form method="post" action="{% url 'cliente_cancelar_reserva' r.pk %}">
+          {% csrf_token %}
+          <button class="btn btn-danger btn-sm" onclick="return confirm('Cancelar esta reserva?')">Cancelar</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}<tr><td colspan="8" style="text-align:center;color:#6b7280;padding:2rem">Voce nao tem reservas ainda. <a href="{% url 'cliente_reservar' %}">Fazer uma reserva</a></td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endblock %}

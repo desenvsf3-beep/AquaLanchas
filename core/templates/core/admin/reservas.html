@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% block title %}Reservas - Admin{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>📋 Todas as Reservas</h1>
+  <span style="color:#6b7280">{{ reservas.count }} reserva(s)</span>
+</div>
+<div class="card">
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>#</th><th>Cliente</th><th>Lancha</th><th>Inicio</th><th>Fim</th><th>Pessoas</th><th>Valor</th><th>Status</th><th>Acoes</th></tr></thead>
+    <tbody>
+    {% for r in reservas %}
+    <tr>
+      <td>#{{ r.id }}</td>
+      <td>{{ r.cliente.get_full_name|default:r.cliente.username }}<br><small style="color:#6b7280">{{ r.cliente.email }}</small></td>
+      <td>{{ r.lancha.nome }}</td>
+      <td>{{ r.data_inicio|date:"d/m/Y H:i" }}</td>
+      <td>{{ r.data_fim|date:"d/m/Y H:i" }}</td>
+      <td>{{ r.quantidade_pessoas }}</td>
+      <td>R$ {{ r.valor_total }}</td>
+      <td>
+        {% if r.status == 'confirmada' %}<span class="pill pill-verde">Confirmada</span>
+        {% elif r.status == 'cancelada' %}<span class="pill pill-vermelho">Cancelada</span>
+        {% elif r.status == 'pendente' %}<span class="pill pill-laranja">Pendente</span>
+        {% else %}<span class="pill pill-cinza">Concluida</span>{% endif %}
+      </td>
+      <td>
+        {% if r.status == 'confirmada' %}
+        <form method="post" action="{% url 'admin_reserva_cancelar' r.pk %}">
+          {% csrf_token %}
+          <button class="btn btn-danger btn-sm">Cancelar</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}<tr><td colspan="9" style="text-align:center;color:#6b7280;padding:2rem">Nenhuma reserva.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endblock %}
